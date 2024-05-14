@@ -1,0 +1,22 @@
+<div class="container my-5">
+    <h1>All Products</h1>
+
+    <div class="row my-3">
+        <% products.forEach(product => { %>
+            <div class="col-md-6 col-lg-4 mb-3">
+                <div class="card">
+                    <div class="card-header">
+                      <%= product.brand %>
+                    </div>
+                    <div class="card-body">
+                      <h5 class="card-title"><%= product.name %></h5>
+                      <p class="card-text">Rp.<%= product.price.toLocaleString( "id-ID") %></p>
+                      <a href="/products/<%= product._id %>" class="btn btn-primary">View</a>
+                    </div>
+                  </div>
+                </div>
+            <% }) %>
+    </div>
+ 
+
+</div>
