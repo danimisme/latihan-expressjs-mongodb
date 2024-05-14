@@ -22,7 +22,7 @@ app.use(express.static(path.join(__dirname, "public")));
 app.use(express.urlencoded({ extended: true }));
 
 app.get("/", (req, res) => {
-  res.render("index", { title: "Home", layout: "layouts/main-layout" });
+  res.redirect("/products");
 });
 
 app.get("/products", async (req, res) => {
