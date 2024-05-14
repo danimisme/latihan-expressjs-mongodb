@@ -74,7 +74,7 @@ app.get("/products/:id/edit", async (req, res) => {
   try {
     const product = await Product.findById(id);
     res.render("products/edit", {
-      title: "Product Detail",
+      title: "Edit Product",
       product,
       layout: "layouts/main-layout",
     });
