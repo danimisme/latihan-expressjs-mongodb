@@ -3,6 +3,7 @@ const app = express();
 const port = 8080;
 const path = require("path");
 const expressLayout = require("express-ejs-layouts");
+require("./utils/db");
 
 app.use(expressLayout);
 
