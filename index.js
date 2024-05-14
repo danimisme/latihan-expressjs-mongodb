@@ -104,6 +104,14 @@ app.post("/products", async (req, res) => {
   res.redirect("/products");
 });
 
+app.use((req, res) => {
+  res.status(404);
+  res.render("not-found", {
+    title: "Not Found",
+    layout: "layouts/main-layout",
+  });
+});
+
 app.listen(port, () => {
   console.log(`Server is running on http://localhost:${port}`);
 });
