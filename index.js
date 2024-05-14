@@ -16,13 +16,14 @@ app.set("views", path.join(__dirname, "views"));
 app.set("layout", path.join(__dirname, "views/layouts"));
 app.use(express.static(path.join(__dirname, "public")));
 
+app.use(express.urlencoded({ extended: true }));
+
 app.get("/", (req, res) => {
   res.render("index", { title: "Home", layout: "layouts/main-layout" });
 });
 
 app.get("/products", async (req, res) => {
   const products = await Product.find();
-  console.log(products);
   res.render("products", {
     title: "Products",
     products,
@@ -46,6 +47,14 @@ app.get("/product/create", (req, res) => {
     title: "Create Product",
     layout: "layouts/main-layout",
   });
+});
+
+app.post("/products", async (req, res) => {
+  const product = new Product(req.body);
+  console.log(req.body);
+  console.log(product);
+  await product.save();
+  res.redirect("/products");
 });
 
 app.listen(port, () => {
