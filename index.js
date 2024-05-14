@@ -37,7 +37,6 @@ app.get("/products", async (req, res) => {
 app.get("/products/:id", async (req, res) => {
   const { id } = req.params;
   const product = await Product.findById(id);
-  console.log(product);
   res.render("products/show", {
     title: "Product Detail",
     product,
@@ -48,7 +47,6 @@ app.get("/products/:id", async (req, res) => {
 app.get("/products/:id/edit", async (req, res) => {
   const { id } = req.params;
   const product = await Product.findById(id);
-  console.log(product);
   res.render("products/edit", {
     title: "Product Detail",
     product,
@@ -60,6 +58,18 @@ app.put("/products/:id", async (req, res) => {
   const { id } = req.params;
   await Product.findByIdAndUpdate(id, req.body, { runValidators: true });
   res.redirect("/products/" + id);
+});
+
+app.delete("/products/:id", async (req, res) => {
+  const { id } = req.params;
+  await Product.findByIdAndDelete(id)
+    .then(() => {
+      console.log("Product has been deleted");
+    })
+    .catch((err) => {
+      console.log(err);
+    });
+  res.redirect("/products");
 });
 
 app.get("/product/create", (req, res) => {
