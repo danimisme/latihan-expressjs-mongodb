@@ -56,6 +56,12 @@ app.get("/products/:id/edit", async (req, res) => {
   });
 });
 
+app.put("/products/:id", async (req, res) => {
+  const { id } = req.params;
+  await Product.findByIdAndUpdate(id, req.body, { runValidators: true });
+  res.redirect("/products/" + id);
+});
+
 app.get("/product/create", (req, res) => {
   res.render("products/create", {
     title: "Create Product",
