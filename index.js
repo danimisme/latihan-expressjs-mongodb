@@ -105,12 +105,22 @@ app.get("/product/create", (req, res) => {
   });
 });
 
-app.post("/products", async (req, res) => {
+app.post("/products", async (req, res, next) => {
   const product = new Product(req.body);
   console.log(req.body);
   console.log(product);
-  await product.save();
-  res.redirect("/products");
+  await product
+    .save()
+    .then((res) => {
+      res.redirect("/products");
+    })
+    .catch((err) => {
+      if (err.name === "ValidationError") {
+        err.status = 400;
+        err.message = Object.values(err.errors).map((e) => e.message);
+      }
+      next(err);
+    });
 });
 
 app.get("/about", (req, res) => {
