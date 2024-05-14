@@ -5,6 +5,9 @@ const path = require("path");
 const expressLayout = require("express-ejs-layouts");
 require("./utils/db");
 
+// Models
+const Product = require("./models/product");
+
 app.use(expressLayout);
 
 app.set("view engine", "ejs");
