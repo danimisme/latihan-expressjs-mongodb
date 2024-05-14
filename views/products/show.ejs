@@ -1,0 +1,11 @@
+<div class="container my-5">
+    <h1 class="mb-3">Product Name: <%= product.name %></h1>
+    <ul class="list-group mb-4">
+        <li class="list-group-item">Brand : <%= product.brand %> </li>
+        <li class="list-group-item">Price : <%= product.price.toLocaleString("id-ID") %></li>
+        <li class="list-group-item">Color : <%= product.color %></li>
+        <li class="list-group-item">Size : <%= product.size %></li>
+        <li class="list-group-item">And a fifth one</li>
+      </ul>
+      <a href="/products" class="btn btn-secondary">Back</a>
+</div>
