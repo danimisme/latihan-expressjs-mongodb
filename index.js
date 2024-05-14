@@ -53,22 +53,38 @@ app.get("/products", async (req, res) => {
 
 app.get("/products/:id", async (req, res) => {
   const { id } = req.params;
-  const product = await Product.findById(id);
-  res.render("products/show", {
-    title: "Product Detail",
-    product,
-    layout: "layouts/main-layout",
-  });
+  try {
+    const product = await Product.findById(id);
+    res.render("products/show", {
+      title: "Product Detail",
+      product,
+      layout: "layouts/main-layout",
+    });
+  } catch (error) {
+    res.status(404);
+    res.render("not-found", {
+      title: "Not Found",
+      layout: "layouts/main-layout",
+    });
+  }
 });
 
 app.get("/products/:id/edit", async (req, res) => {
   const { id } = req.params;
-  const product = await Product.findById(id);
-  res.render("products/edit", {
-    title: "Product Detail",
-    product,
-    layout: "layouts/main-layout",
-  });
+  try {
+    const product = await Product.findById(id);
+    res.render("products/edit", {
+      title: "Product Detail",
+      product,
+      layout: "layouts/main-layout",
+    });
+  } catch (error) {
+    res.status(404);
+    res.render("not-found", {
+      title: "Not Found",
+      layout: "layouts/main-layout",
+    });
+  }
 });
 
 app.put("/products/:id", async (req, res) => {
