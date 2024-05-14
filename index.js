@@ -26,12 +26,24 @@ app.get("/", (req, res) => {
 });
 
 app.get("/products", async (req, res) => {
-  const products = await Product.find();
-  res.render("products", {
-    title: "Products",
-    products,
-    layout: "layouts/main-layout",
-  });
+  const { category } = req.query;
+  if (category) {
+    const products = await Product.find({ category });
+    res.render("products", {
+      title: "Products",
+      products,
+      category,
+      layout: "layouts/main-layout",
+    });
+  } else {
+    const products = await Product.find();
+    res.render("products", {
+      title: "Products",
+      products,
+      category: "",
+      layout: "layouts/main-layout",
+    });
+  }
 });
 
 app.get("/products/:id", async (req, res) => {
