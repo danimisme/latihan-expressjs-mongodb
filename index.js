@@ -6,6 +6,7 @@ const expressLayout = require("express-ejs-layouts");
 const methodOverride = require("method-override");
 const morgan = require("morgan");
 require("./utils/db");
+const ErrorHandler = require("./utils/errorHandler");
 
 // Models
 const Product = require("./models/product");
@@ -51,7 +52,7 @@ app.get("/products", async (req, res) => {
   }
 });
 
-app.get("/products/:id", async (req, res) => {
+app.get("/products/:id", async (req, res, next) => {
   const { id } = req.params;
   try {
     const product = await Product.findById(id);
@@ -61,15 +62,11 @@ app.get("/products/:id", async (req, res) => {
       layout: "layouts/main-layout",
     });
   } catch (error) {
-    res.status(404);
-    res.render("not-found", {
-      title: "Not Found",
-      layout: "layouts/main-layout",
-    });
+    next({ status: 404, message: "Product Not Found" });
   }
 });
 
-app.get("/products/:id/edit", async (req, res) => {
+app.get("/products/:id/edit", async (req, res, next) => {
   const { id } = req.params;
   try {
     const product = await Product.findById(id);
@@ -79,11 +76,7 @@ app.get("/products/:id/edit", async (req, res) => {
       layout: "layouts/main-layout",
     });
   } catch (error) {
-    res.status(404);
-    res.render("not-found", {
-      title: "Not Found",
-      layout: "layouts/main-layout",
-    });
+    next({ status: 404, message: "Cannot Edit , Product Not Found" });
   }
 });
 
@@ -120,11 +113,25 @@ app.post("/products", async (req, res) => {
   res.redirect("/products");
 });
 
-app.use((req, res) => {
-  res.status(404);
-  res.render("not-found", {
-    title: "Not Found",
+app.get("/about", (req, res) => {
+  res.render("about", {
+    title: "About",
     layout: "layouts/main-layout",
+  });
+});
+
+app.use((req, res, next) => {
+  next({ status: 404, message: "Page Not Found" });
+});
+
+app.use((err, req, res, next) => {
+  const { status = 500, message = "Internal Server Error" } = err;
+  res.status(status);
+  res.render("error", {
+    title: "Error",
+    layout: "layouts/main-layout",
+    message,
+    status,
   });
 });
 
