@@ -41,6 +41,13 @@ app.get("/products/:id", async (req, res) => {
   });
 });
 
+app.get("/product/create", (req, res) => {
+  res.render("products/create", {
+    title: "Create Product",
+    layout: "layouts/main-layout",
+  });
+});
+
 app.listen(port, () => {
   console.log(`Server is running on http://localhost:${port}`);
 });
