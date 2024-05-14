@@ -20,6 +20,16 @@ app.get("/", (req, res) => {
   res.render("index", { title: "Home", layout: "layouts/main-layout" });
 });
 
+app.get("/products", async (req, res) => {
+  const products = await Product.find();
+  console.log(products);
+  res.render("products", {
+    title: "Products",
+    products,
+    layout: "layouts/main-layout",
+  });
+});
+
 app.listen(port, () => {
   console.log(`Server is running on http://localhost:${port}`);
 });
