@@ -4,10 +4,15 @@ const port = 8080;
 const path = require("path");
 const expressLayout = require("express-ejs-layouts");
 const methodOverride = require("method-override");
+const morgan = require("morgan");
 require("./utils/db");
 
 // Models
 const Product = require("./models/product");
+
+app.use(
+  morgan(":method :url :status :res[content-length] - :response-time ms")
+);
 
 app.use(expressLayout);
 
