@@ -1,0 +1,13 @@
+<div class="container my-5">
+    <h1 class="mb-3">Garment Detail</h1>
+    <ul class="list-group mb-4">
+        <li class="list-group-item">Name : <%= garment.name %> </li>
+        <li class="list-group-item">Location : <%= garment.location %> </li>
+        <li class="list-group-item">Contact : <%= garment.contact.toLocaleString("id-ID") %></li>
+      </ul>
+      <a href="/garments" class="btn btn-secondary">Back</a>
+      <a href="/garmnets/<%= garment._id %>/edit" class="btn btn-info">Edit</a>
+      <form action="/garmnets/<%= garment._id %>?_method=DELETE" method="POST" class="d-inline">
+        <button class="btn btn-danger" type="submit">Delete</button>
+      </form>
+</div>
