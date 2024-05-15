@@ -10,6 +10,7 @@ const ErrorHandler = require("./utils/errorHandler");
 
 // Models
 const Product = require("./models/product");
+const Garment = require("./models/garment");
 
 app.use(
   morgan(":method :url :status :res[content-length] - :response-time ms")

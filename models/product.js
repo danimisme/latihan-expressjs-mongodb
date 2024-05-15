@@ -22,6 +22,10 @@ const productSchema = new mongoose.Schema({
     enum: ["Baju", "Celana", "Aksesoris", "Jaket"],
     required: [true, "Product category is required"],
   },
+  garment: {
+    type: mongoose.Schema.types.ObjectId,
+    ref: "Garment",
+  },
 });
 
 const Product = mongoose.model("Product", productSchema);
