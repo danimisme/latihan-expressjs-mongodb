@@ -4,10 +4,11 @@
         <li class="list-group-item">Name : <%= garment.name %> </li>
         <li class="list-group-item">Location : <%= garment.location %> </li>
         <li class="list-group-item">Contact : <%= garment.contact.toLocaleString("id-ID") %></li>
-      </ul>
+    </ul>
       <a href="/garments" class="btn btn-secondary">Back</a>
-      <a href="/garmnets/<%= garment._id %>/edit" class="btn btn-info">Edit</a>
-      <form action="/garmnets/<%= garment._id %>?_method=DELETE" method="POST" class="d-inline">
+      <a href="/garments/<%= garment._id %>/edit" class="btn btn-info">Edit</a>
+      <a href="/garments/<%= garment._id %>/products/create" class="btn btn-primary">Add Product</a>
+      <form action="/garments/<%= garment._id %>?_method=DELETE" method="POST" class="d-inline">
         <button class="btn btn-danger" type="submit">Delete</button>
       </form>
 </div>
