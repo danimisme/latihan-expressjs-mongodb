@@ -60,6 +60,20 @@ app.post("/garments", async (req, res, next) => {
     });
 });
 
+app.get("/garments/:id", async (req, res, next) => {
+  const { id } = req.params;
+  try {
+    const garment = await Garment.findById(id);
+    res.render("garments/show", {
+      title: "Garment Detail",
+      garment,
+      layout: "layouts/main-layout",
+    });
+  } catch (error) {
+    next(error);
+  }
+});
+
 app.get("/products", async (req, res) => {
   const { category } = req.query;
   if (category) {
