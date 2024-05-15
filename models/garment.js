@@ -1,6 +1,8 @@
 const mongoose = require("mongoose");
 
-const garmnmentSchema = new mongoose.Schema({
+const Product = require("./product");
+
+const garmentSchema = new mongoose.Schema({
   name: {
     type: String,
     required: [true, "Nama tidak boleh kosong"],
@@ -10,13 +12,15 @@ const garmnmentSchema = new mongoose.Schema({
   },
   contact: {
     type: String,
-    required: [true, "Contact tidak boleh kosong"],
+    required: [true, "Kontak tidak boleh kosong"],
   },
-  prodducts: {
-    type: mongoose.Schema.Types.ObjectId,
-    ref: "Product",
-  },
+  products: [
+    {
+      type: mongoose.Schema.Types.ObjectId,
+      ref: "Product",
+    },
+  ],
 });
 
-const Garment = mongoose.model("Garment", garmnmentSchema);
+const Garment = mongoose.model("Garment", garmentSchema);
 module.exports = Garment;
