@@ -1,0 +1,25 @@
+<div class="container my-5">
+    <h1>Data Garment</h1>
+    <div class="row">
+      <div class="col-12 col-md-6 col-lg-9">
+        <a href="/garments/create" class="btn btn-outline-primary">+ Add Garment</a>
+      </div>
+    </div>
+    <div class="row my-3">
+        <% garments.forEach(garment => { %>
+            <div class="col-md-6 col-lg-4 mb-3">
+                <div class="card">
+                    <div class="card-header">
+                      <%= garment.location %>
+                    </div>
+                    <div class="card-body">
+                      <h5 class="card-title"><%= garment.name %></h5>
+                      <p class="card-text"><%= garment.contact %></p>
+                      <a href="/garments/<%= garment._id %>" class="btn btn-primary">View</a>
+                    </div>
+                  </div>
+                </div>
+            <% }) %>
+    </div>
+</div>
+
