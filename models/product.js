@@ -23,7 +23,7 @@ const productSchema = new mongoose.Schema({
     required: [true, "Product category is required"],
   },
   garment: {
-    type: mongoose.Schema.types.ObjectId,
+    type: mongoose.Schema.Types.ObjectId,
     ref: "Garment",
   },
 });
