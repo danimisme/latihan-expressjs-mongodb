@@ -32,6 +32,34 @@ app.get("/", (req, res) => {
   res.redirect("/products");
 });
 
+app.get("/garments", async (req, res) => {
+  const garments = await Garment.find();
+  res.render("garments", {
+    title: "Garments",
+    garments,
+    layout: "layouts/main-layout",
+  });
+});
+
+app.get("/garments/create", (req, res) => {
+  res.render("garments/create", {
+    title: "Create Garment",
+    layout: "layouts/main-layout",
+  });
+});
+
+app.post("/garments", async (req, res, next) => {
+  const garment = new Garment(req.body);
+  await garment
+    .save()
+    .then((result) => {
+      res.redirect("/garments");
+    })
+    .catch((err) => {
+      next(err);
+    });
+});
+
 app.get("/products", async (req, res) => {
   const { category } = req.query;
   if (category) {
