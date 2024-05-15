@@ -1,13 +1,16 @@
 const express = require("express");
 const router = express.Router();
-
+const session = require("express-session");
+const flash = require("connect-flash");
 const Garment = require("../models/garment");
 
 router.get("/", async (req, res) => {
+  console.log(req.flash("success"));
   const garments = await Garment.find();
   res.render("garments", {
     title: "Garments",
     garments,
+    message: req.flash("success"),
     layout: "layouts/main-layout",
   });
 });
@@ -24,7 +27,8 @@ router.post("/", async (req, res, next) => {
   await garment
     .save()
     .then((result) => {
-      res.redirect("/");
+      req.flash("success", "Garment has been created");
+      res.redirect("/garments");
     })
     .catch((err) => {
       next(err);
@@ -50,8 +54,8 @@ router.delete("/:id", async (req, res) => {
   const { id } = req.params;
   await Garment.findOneAndDelete({ _id: id })
     .then(() => {
-      console.log("Garment has been deleted");
-      res.redirect("/");
+      req.flash("success", "Garment has been deleted");
+      res.redirect("/garments");
     })
     .catch((err) => {
       console.log(err);

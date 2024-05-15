@@ -6,11 +6,22 @@ const expressLayout = require("express-ejs-layouts");
 const methodOverride = require("method-override");
 const morgan = require("morgan");
 require("./utils/db");
-const ErrorHandler = require("./utils/errorHandler");
+const session = require("express-session");
+const flash = require("connect-flash");
 
 // Models
 const Product = require("./models/product");
 const Garment = require("./models/garment");
+
+app.use(
+  session({
+    cookie: { maxAge: 6000 },
+    secret: "secret",
+    resave: true,
+    saveUninitialized: true,
+  })
+);
+app.use(flash());
 
 app.use(
   morgan(":method :url :status :res[content-length] - :response-time ms")
