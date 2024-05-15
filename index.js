@@ -32,60 +32,7 @@ app.get("/", (req, res) => {
   res.redirect("/products");
 });
 
-app.get("/garments", async (req, res) => {
-  const garments = await Garment.find();
-  res.render("garments", {
-    title: "Garments",
-    garments,
-    layout: "layouts/main-layout",
-  });
-});
-
-app.get("/garments/create", (req, res) => {
-  res.render("garments/create", {
-    title: "Create Garment",
-    layout: "layouts/main-layout",
-  });
-});
-
-app.post("/garments", async (req, res, next) => {
-  const garment = new Garment(req.body);
-  await garment
-    .save()
-    .then((result) => {
-      res.redirect("/garments");
-    })
-    .catch((err) => {
-      next(err);
-    });
-});
-
-app.get("/garments/:id", async (req, res, next) => {
-  const { id } = req.params;
-  try {
-    const garment = await Garment.findById(id).populate("products");
-    console.log(garment);
-    res.render("garments/show", {
-      title: "Garment Detail",
-      garment,
-      layout: "layouts/main-layout",
-    });
-  } catch (error) {
-    next(error);
-  }
-});
-
-app.delete("/garments/:id", async (req, res) => {
-  const { id } = req.params;
-  await Garment.findOneAndDelete({ _id: id })
-    .then(() => {
-      console.log("Garment has been deleted");
-      res.redirect("/garments");
-    })
-    .catch((err) => {
-      console.log(err);
-    });
-});
+app.use("/garments", require("./routes/garment"));
 
 app.get("/products", async (req, res) => {
   const { category } = req.query;
@@ -181,13 +128,6 @@ app.post("/products", async (req, res, next) => {
     }
     next(err);
   }
-});
-
-app.get("/about", (req, res) => {
-  res.render("about", {
-    title: "About",
-    layout: "layouts/main-layout",
-  });
 });
 
 app.use((req, res, next) => {
