@@ -5,10 +5,21 @@
         <li class="list-group-item">Location : <%= garment.location %> </li>
         <li class="list-group-item">Contact : <%= garment.contact.toLocaleString("id-ID") %></li>
     </ul>
-      <a href="/garments" class="btn btn-secondary">Back</a>
-      <a href="/garments/<%= garment._id %>/edit" class="btn btn-info">Edit</a>
-      <a href="/garments/<%= garment._id %>/products/create" class="btn btn-primary">Add Product</a>
-      <form action="/garments/<%= garment._id %>?_method=DELETE" method="POST" class="d-inline">
-        <button class="btn btn-danger" type="submit">Delete</button>
-      </form>
+    <a href="/garments" class="btn btn-secondary">Back</a>
+    <a href="/garments/<%= garment._id %>/edit" class="btn btn-info">Edit</a>
+    <form action="/garments/<%= garment._id %>?_method=DELETE" method="POST" class="d-inline">
+      <button class="btn btn-danger" type="submit">Delete</button>
+    </form>
+    <% if (garment.products.length > 0) { %>
+      <div class="my-5">
+        <h2>Products : </h2>
+        <ul class="list-group mb-4">
+          <% garment.products.forEach((product,i) => { %>
+          <li class="list-group-item"> <%= i+1 %> : <%= product.name %> - <%= product.brand %> <a href="/products/<%= product._id %>" class="btn btn-success badge mx-3"> View</a></li>
+          <% }) %>
+        </ul>
+      </div>
+    <% } %>
+
+      <a href="/product/create/<%= garment._id %>" class="btn btn-primary">Add Product</a>
 </div>

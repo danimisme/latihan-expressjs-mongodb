@@ -2,36 +2,49 @@
     <h1 class="text-center">Create Product</h1>
     <div class="row">
         <div class="col-lg-6 col-md-10 col-11 mx-auto">
-            <form action="/garments/<%= garment_id %>/products" method="POST">
+            <% if (garments && garments.length > 0) { %>
+              <form action="/products" method="POST">
                 <div class="mb-3">
-                  <label for="name" class="form-label">Product Name</label>
-                  <input type="text" class="form-control" id="name" name="name" >
+                    <label for="gament" class="form-label">Garment</label>
+                    <select class="form-select" name="garment">
+                        <% garments.forEach(garment => { %>
+                          <option value="<%=garment._id%>" <%= garment._id === garment_id ? "selected" : "" %> > <%= garment.name %></option>
+                        <% }) %>
+                    </select>
                 </div>
-                <div class="mb-3">
-                  <label for="brand" class="form-label">Brand</label>
-                  <input type="text" class="form-control" id="brand" name="brand" >
-                </div>
-                <div class="mb-3">
-                  <label for="color" class="form-label">Color</label>
-                  <input type="text" class="form-control" id="color" name="color" >
-                </div>
-                <div class="mb-3">
-                  <label for="price" class="form-label">Price</label>
-                  <input type="number" class="form-control" id="price" name="price" >
-                </div>
-                <div class="mb-3">
-                    <label for="category" class="form-label">Price</label>
-                    <select class="form-select" name="category">
-                        <option value="Aksesoris">Aksesoris</option>
-                        <option value="Baju">Baju</option>
-                        <option value="Celana">Celana</option>
-                        <option value="Jaket">Jaket</option>
+                  <div class="mb-3">
+                    <label for="name" class="form-label">Product Name</label>
+                    <input type="text" class="form-control" id="name" name="name" >
+                  </div>
+                  <div class="mb-3">
+                    <label for="brand" class="form-label">Brand</label>
+                    <input type="text" class="form-control" id="brand" name="brand" >
+                  </div>
+                  <div class="mb-3">
+                    <label for="color" class="form-label">Color</label>
+                    <input type="text" class="form-control" id="color" name="color" >
+                  </div>
+                  <div class="mb-3">
+                    <label for="price" class="form-label">Price</label>
+                    <input type="number" class="form-control" id="price" name="price" >
+                  </div>
+                  <div class="mb-3">
+                      <label for="category" class="form-label">Price</label>
+                      <select class="form-select" name="category">
+                          <option value="Aksesoris">Aksesoris</option>
+                          <option value="Baju">Baju</option>
+                          <option value="Celana">Celana</option>
+                          <option value="Jaket">Jaket</option>
                       </select>
-                </div>
-                <button type="submit" class="btn btn-primary">Submit</button> 
-                <a href="/products" class="btn btn-danger">Cancel</a></a>
-            </form>
+                  </div>
+                  <button type="submit" class="btn btn-primary">Submit</button> 
+                  <a href="/products" class="btn btn-danger">Cancel</a></a>
+              </form>
+            <% } else { %>
+              <div class="alert alert-danger" role="alert">
+                Data garment kosong, harap membuat data garment terlebih dahulu <a href="/garments/create" class="alert-link">Klik disini</a>. Untuk membuat data garment
+              </div>
+            <% } %>
         </div>
     </div>
-
 </div>

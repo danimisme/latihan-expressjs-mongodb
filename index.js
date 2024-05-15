@@ -63,7 +63,8 @@ app.post("/garments", async (req, res, next) => {
 app.get("/garments/:id", async (req, res, next) => {
   const { id } = req.params;
   try {
-    const garment = await Garment.findById(id);
+    const garment = await Garment.findById(id).populate("products");
+    console.log(garment);
     res.render("garments/show", {
       title: "Garment Detail",
       garment,
@@ -74,28 +75,16 @@ app.get("/garments/:id", async (req, res, next) => {
   }
 });
 
-app.get("/garments/:garment_id/products/create", async (req, res, next) => {
-  const { garment_id } = req.params;
-  res.render("products/create", {
-    title: "Create Product",
-    garment_id,
-    layout: "layouts/main-layout",
-  });
-});
-
-app.post("/garments/:garment_id/products", async (req, res, next) => {
-  const { garment_id } = req.params;
-  try {
-    const garment = await Garment.findById(garment_id);
-    const product = new Product(req.body);
-    garment.products.push(product);
-    await garment.save();
-    await product.save();
-    res.redirect("/garments");
-  } catch (error) {
-    console.log(garment_id);
-    next(error);
-  }
+app.delete("/garments/:id", async (req, res) => {
+  const { id } = req.params;
+  await Garment.findOneAndDelete({ _id: id })
+    .then(() => {
+      console.log("Garment has been deleted");
+      res.redirect("/garments");
+    })
+    .catch((err) => {
+      console.log(err);
+    });
 });
 
 app.get("/products", async (req, res) => {
@@ -165,29 +154,33 @@ app.delete("/products/:id", async (req, res) => {
   res.redirect("/products");
 });
 
-app.get("/product/create", (req, res) => {
+app.get("/product/create/:garment_id", async (req, res) => {
+  const garments = await Garment.find();
+  const { garment_id } = req.params;
   res.render("products/create", {
     title: "Create Product",
     layout: "layouts/main-layout",
+    garments,
+    garment_id,
   });
 });
 
 app.post("/products", async (req, res, next) => {
   const product = new Product(req.body);
-  console.log(req.body);
-  console.log(product);
-  await product
-    .save()
-    .then((res) => {
-      res.redirect("/products");
-    })
-    .catch((err) => {
-      if (err.name === "ValidationError") {
-        err.status = 400;
-        err.message = Object.values(err.errors).map((e) => e.message);
-      }
-      next(err);
-    });
+  try {
+    const garment = await Garment.findById(product.garment);
+    product.garment = garment;
+    garment.products.push(product);
+    await garment.save();
+    await product.save();
+    res.redirect("/products");
+  } catch (error) {
+    if (err.name === "ValidationError") {
+      err.status = 400;
+      err.message = Object.values(err.errors).map((e) => e.message);
+    }
+    next(err);
+  }
 });
 
 app.get("/about", (req, res) => {
